@@ -1,0 +1,18 @@
+#Do not use tabs in yaml file, use 2 or 4 spaces for indentation
+
+# path to reference
+ref: "data/reference/reference.fa"
+# base name for bowtie2 reference index files 
+idx_prefix: "idx_reference"
+
+#samples
+samples: "../config/samples.tsv"
+
+#bowtie2 parameters
+software:
+  bowtie2:
+    map_opts: "--local --no-discordant"
+    threads: 4
+  #samtools threads
+  samtools:
+    threads: 4
