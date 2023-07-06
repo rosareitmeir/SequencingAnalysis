@@ -1,7 +1,0 @@
-sample	fq1	fq2
-ERR024604_tiny	data/fastq/ERR024604_tiny_1.fastq.gz	data/fastq/ERR024604_tiny_2.fastq.gz
-ERR024605_tiny	data/fastq/ERR024605_tiny_1.fastq.gz	data/fastq/ERR024605_tiny_2.fastq.gz
-ERR024606_tiny	data/fastq/ERR024606_tiny_1.fastq.gz	data/fastq/ERR024606_tiny_2.fastq.gz
-ERR024607_tiny	data/fastq/ERR024607_tiny_1.fastq.gz	data/fastq/ERR024607_tiny_2.fastq.gz
-ERR024608_tiny	data/fastq/ERR024608_tiny_1.fastq.gz	data/fastq/ERR024608_tiny_2.fastq.gz
-ERR024609_tiny	data/fastq/ERR024609_tiny_1.fastq.gz	data/fastq/ERR024609_tiny_2.fastq.gz
