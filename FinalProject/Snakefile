@@ -1,0 +1,54 @@
+#load samples into table
+import pandas as pd
+import os
+#relative to working directory
+configfile: "config/config.yaml"
+
+samples = pd.read_csv(config["samples"], index_col="sample", sep='\t')
+
+
+def get_fastq_pair1(wildcards):
+	sample = wildcards.sample
+	r1 = samples.loc[sample][0]
+	return r1
+
+def get_fastq_pair2(wildcards):
+	sample = wildcards.sample
+	r2 = samples.loc[sample][1]
+	return r2
+
+def get_fq1_for_downstream(wildcards):
+	if config["use_trimmed"]:
+		#return wildcards.sample
+		return ["results/trimmed/"+ wildcards.sample + "_1.fastq"]
+	else:
+		return [str(samples.loc[wildcards.sample][0])]
+
+def get_fq2_for_downstream(wildcards):
+	if config["use_trimmed"]:
+		#return wildcards.sample
+		return [ "results/trimmed/"+ wildcards.sample + "_2.fastq"]
+	else:
+		return [str(samples.loc[wildcards.sample][1])]
+
+def get_fqs_for_downstream(wildcards):
+	if config["use_trimmed"]:
+		return ["results/trimmed/" + wildcards.sample + "_1.fastq", "results/trimmed/" + wildcards.sample + "_2.fastq"]
+	else:
+		return [samples.loc[wildcards.sample][0], samples.loc[wildcards.sample][1]]
+
+
+numbers=[1,2]
+
+#include: "rules/reference_mapping.smk"
+#include: "rules/qc_preprocessing.smk"  #quality control
+#include: "rules/denovo_assembly.smk" #de novo assembly
+include: "rules/obtaining_geneseq.smk"
+
+rule all:
+	input:
+		#"results/qc/multiqc_report.html",
+		## either de novo if reference file is not given otherwise STAR and featurecounts
+		#"results/gene_sequences/gene_list.tsv",
+		expand( "results/gene_sequences/{sample}.tsv", sample= list(samples.index))
+

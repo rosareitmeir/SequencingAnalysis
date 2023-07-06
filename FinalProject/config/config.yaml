@@ -1,0 +1,36 @@
+#Do not use tabs in yaml file, use 2 or 4 spaces for indentation
+
+
+#samples
+samples: "config/samples.tsv"
+
+#fastq: "../data"
+
+# to be tested references
+#ref: "data/chr22_with_ERCC92.fa"
+#ref_anno: "data/chr22_with_ERCC92.gtf"
+
+## use trimmed or raw reads
+use_trimmed: False
+
+#tool parameters
+software:
+  star:
+    indx_threads: 1
+    align_threads: 1
+    align_extra: ""
+  cutadapt:
+    adapters: "-a AGAGCACACGTCTGAACTCCAGTCAC -g AGATCGGAAGAGCACACGT -A AGAGCACACGTCTGAACTCCAGTCAC -G AGATCGGAAGAGCACACGT"
+    extra: "--minimum-length 1 -q 20"
+    threads: 1
+  trinity:
+      threads: 1
+      mem_gb: 2
+      extra: ""
+  kallisto:
+      threads: 1
+  rsem:
+      threads: 1
+      extra: ""
+  OGS:
+    min_coverage: 0.9
