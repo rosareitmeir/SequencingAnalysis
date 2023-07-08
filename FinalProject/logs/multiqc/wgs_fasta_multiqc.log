@@ -1,0 +1,12 @@
+
+  /// MultiQC 🔍 | v1.14
+
+|           multiqc | Search path : /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs
+|         searching | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 37/37  
+|             quast | Found 1 reports
+|          cutadapt | Found 1 reports
+|            fastqc | Found 2 reports
+|           multiqc | Compressing plot data
+|           multiqc | Report      : results/qc/wgs/multiqc_report.html
+|           multiqc | Data        : results/qc/wgs/multiqc_data
+|           multiqc | MultiQC complete

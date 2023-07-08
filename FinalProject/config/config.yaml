@@ -6,12 +6,20 @@ samples: "config/samples.tsv"
 
 #fastq: "../data"
 
-# to be tested references
-#ref: "data/chr22_with_ERCC92.fa"
-#ref_anno: "data/chr22_with_ERCC92.gtf"
+# either reference is given
+ref: "" #data/chr22_with_ERCC92.fa"
+ref_anno: "" # "data/chr22_with_ERCC92.gtf"
+# or wgs data for de novo assembly
+# path to folder and sample name
+wgs_data: "assembly/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a"
+
+# optional contaminations to be removed
+contaminations: "" #"config/contaminations.tsv"
+
+
 
 ## use trimmed or raw reads
-use_trimmed: False
+use_trimmed: True
 
 #tool parameters
 software:
@@ -23,14 +31,23 @@ software:
     adapters: "-a AGAGCACACGTCTGAACTCCAGTCAC -g AGATCGGAAGAGCACACGT -A AGAGCACACGTCTGAACTCCAGTCAC -G AGATCGGAAGAGCACACGT"
     extra: "--minimum-length 1 -q 20"
     threads: 1
-  trinity:
-      threads: 1
-      mem_gb: 2
-      extra: ""
-  kallisto:
-      threads: 1
-  rsem:
-      threads: 1
-      extra: ""
+  kraken2:
+    database: "/home/rosa/SequencingAnalysis/FinalProject/database/k2_viral_20230314"
+    threads: 1
+  seqtk:
+    threads: 1
+    reads: 10000
+  megahit:
+    threads: 1
+  bowtie2:
+    threads: 1
+  samtools:
+    threads: 1
+  prokka:
+    cpus: 2 # normally 8 cpus
+  busco:
+    threads: 1
+  quast:
+    extra: ""
   OGS:
     min_coverage: 0.9

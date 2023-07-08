@@ -1,0 +1,206 @@
+[17:19:03] This is prokka 1.14.6
+[17:19:03] Written by Torsten Seemann <torsten.seemann@gmail.com>
+[17:19:03] Homepage is https://github.com/tseemann/prokka
+[17:19:03] Local time is Sat Jul  8 17:19:03 2023
+[17:19:03] You are rosa
+[17:19:03] Operating system is linux
+[17:19:03] You have BioPerl 1.7.8
+Argument "1.7.8" isn't numeric in numeric lt (<) at /home/rosa/mambaforge/envs/defenv/bin/prokka line 259.
+[17:19:03] System has 4 cores.
+[17:19:03] Will use maximum of 2 cores.
+[17:19:03] Annotating as >>> Bacteria <<<
+[17:19:03] Generating locus_tag from 'results/assembly/pilon/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.fasta' contents.
+[17:19:03] Setting --locustag JOGFLACB from MD5 380f5acb3bc9b0352f211364b895c322
+[17:19:03] Creating new output folder: results/assembly/annotation/
+[17:19:03] Running: mkdir -p results\/assembly\/annotation\/
+[17:19:03] Using filename prefix: SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.XXX
+[17:19:03] Setting HMMER_NCPU=1
+[17:19:03] Writing log to: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.log
+[17:19:03] Command: /home/rosa/mambaforge/envs/defenv/bin/prokka --cpus 2 --outdir results/assembly/annotation/ --prefix SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a results/assembly/pilon/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.fasta
+[17:19:03] Appending to PATH: /home/rosa/mambaforge/envs/defenv/bin
+[17:19:03] Looking for 'aragorn' - found /home/rosa/mambaforge/envs/defenv/bin/aragorn
+[17:19:03] Determined aragorn version is 001002 from 'ARAGORN v1.2.41 Dean Laslett'
+[17:19:03] Looking for 'barrnap' - found /home/rosa/mambaforge/envs/defenv/bin/barrnap
+[17:19:03] Determined barrnap version is 000009 from 'barrnap 0.9'
+[17:19:03] Looking for 'blastp' - found /home/rosa/mambaforge/envs/defenv/bin/blastp
+[17:19:03] Determined blastp version is 002014 from 'blastp: 2.14.0+'
+[17:19:03] Looking for 'cmpress' - found /home/rosa/mambaforge/envs/defenv/bin/cmpress
+[17:19:03] Determined cmpress version is 001001 from '# INFERNAL 1.1.4 (Dec 2020)'
+[17:19:03] Looking for 'cmscan' - found /home/rosa/mambaforge/envs/defenv/bin/cmscan
+[17:19:03] Determined cmscan version is 001001 from '# INFERNAL 1.1.4 (Dec 2020)'
+[17:19:03] Looking for 'egrep' - found /usr/bin/egrep
+[17:19:03] Looking for 'find' - found /usr/bin/find
+[17:19:03] Looking for 'grep' - found /usr/bin/grep
+[17:19:03] Looking for 'hmmpress' - found /home/rosa/mambaforge/envs/defenv/bin/hmmpress
+[17:19:03] Determined hmmpress version is 003003 from '# HMMER 3.3.2 (Nov 2020); http://hmmer.org/'
+[17:19:03] Looking for 'hmmscan' - found /home/rosa/mambaforge/envs/defenv/bin/hmmscan
+[17:19:03] Determined hmmscan version is 003003 from '# HMMER 3.3.2 (Nov 2020); http://hmmer.org/'
+[17:19:03] Looking for 'java' - found /usr/bin/java
+[17:19:03] Looking for 'makeblastdb' - found /home/rosa/mambaforge/envs/defenv/bin/makeblastdb
+[17:19:03] Determined makeblastdb version is 002014 from 'makeblastdb: 2.14.0+'
+[17:19:03] Looking for 'minced' - found /home/rosa/mambaforge/envs/defenv/bin/minced
+[17:19:04] Determined minced version is 004002 from 'minced 0.4.2'
+[17:19:04] Looking for 'parallel' - found /home/rosa/mambaforge/envs/defenv/bin/parallel
+[17:19:04] Determined parallel version is 20230522 from 'GNU parallel 20230522'
+[17:19:04] Looking for 'prodigal' - found /home/rosa/mambaforge/envs/defenv/bin/prodigal
+[17:19:04] Determined prodigal version is 002006 from 'Prodigal V2.6.3: February, 2016'
+[17:19:04] Looking for 'prokka-genbank_to_fasta_db' - found /home/rosa/mambaforge/envs/defenv/bin/prokka-genbank_to_fasta_db
+[17:19:04] Looking for 'sed' - found /home/rosa/mambaforge/envs/defenv/bin/sed
+[17:19:04] Looking for 'tbl2asn' - found /home/rosa/mambaforge/envs/defenv/bin/tbl2asn
+[17:19:04] Determined tbl2asn version is 025007 from 'tbl2asn 25.7   arguments:'
+[17:19:04] Using genetic code table 11.
+[17:19:04] Loading and checking input file: results/assembly/pilon/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.fasta
+[17:19:04] Wrote 1670 contigs totalling 845844 bp.
+[17:19:04] Predicting tRNAs and tmRNAs
+[17:19:04] Running: aragorn -l -gc11  -w results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.fna
+[17:19:04] 1 tRNA-Leu [223,309] 35 (gag)
+[17:19:04] 1 tRNA-Phe c[505,580] 34 (gaa)
+[17:19:04] 1 tRNA-Gly c[41,115] 34 (tcc)
+[17:19:04] 2 tRNA-Thr c[119,194] 34 (tgt)
+[17:19:04] 3 tRNA-Lys c[197,273] 35 (ttt)
+[17:19:04] 4 tRNA-Met c[275,351] 35 (cat)
+[17:19:04] 1 tRNA-Val [75,151] 35 (gac)
+[17:19:04] 1 tRNA-Ser c[44,131] 35 (gga)
+[17:19:04] 1 tRNA-Ser c[166,253] 35 (tga)
+[17:19:04] 1 tRNA-Gly c[204,277] 33 (ccc)
+[17:19:04] 1 tRNA-Glu [2048,2123] 35 (ttc)
+[17:19:04] Found 11 tRNAs
+[17:19:04] Predicting Ribosomal RNAs
+[17:19:04] Running Barrnap with 2 threads
+[17:19:05] 1 k141_1434_pilon 424 16S ribosomal RNA
+[17:19:05] 2 k141_1442_pilon 6 23S ribosomal RNA
+[17:19:05] 3 k141_1442_pilon 2907 5S ribosomal RNA
+[17:19:05] Found 3 rRNAs
+[17:19:05] Skipping ncRNA search, enable with --rfam if desired.
+[17:19:05] Total of 14 tRNA + rRNA features
+[17:19:05] Searching for CRISPR repeats
+[17:19:05] Found 0 CRISPRs
+[17:19:05] Predicting coding sequences
+[17:19:05] Contigs total 845844 bp, so using single mode
+[17:19:05] Running: prodigal -i results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.fna -c -m -g 11 -p single -f sco -q
+[17:19:06] Excluding CDS which overlaps existing RNA (tRNA) at k141_541_pilon:371..592 on - strand
+[17:19:06] Excluding CDS which overlaps existing RNA (rRNA) at k141_1434_pilon:1584..1862 on + strand
+[17:19:06] Excluding CDS which overlaps existing RNA (rRNA) at k141_1434_pilon:1764..1955 on - strand
+[17:19:06] Excluding CDS which overlaps existing RNA (rRNA) at k141_1442_pilon:129..290 on - strand
+[17:19:06] Found 945 CDS
+[17:19:06] Connecting features back to sequences
+[17:19:06] Not using genus-specific database. Try --usegenus to enable it.
+[17:19:06] Annotating CDS, please be patient.
+[17:19:06] Will use 2 CPUs for similarity searching.
+[17:19:07] There are still 945 unannotated CDS left (started with 945)
+[17:19:07] Will use blast to search against /home/rosa/mambaforge/envs/defenv/db/kingdom/Bacteria/IS with 2 CPUs
+[17:19:07] Running: cat results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.IS\.tmp\.76138\.faa | parallel --gnu --plain -j 2 --block 25015 --recstart '>' --pipe blastp -query - -db /home/rosa/mambaforge/envs/defenv/db/kingdom/Bacteria/IS -evalue 1e-30 -qcov_hsp_perc 90 -num_threads 1 -num_descriptions 1 -num_alignments 1 -seg no > results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.IS\.tmp\.76138\.blast 2> /dev/null
+[17:19:11] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.IS.tmp.76138.faa
+[17:19:11] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.IS.tmp.76138.blast
+[17:19:11] There are still 909 unannotated CDS left (started with 945)
+[17:19:11] Will use blast to search against /home/rosa/mambaforge/envs/defenv/db/kingdom/Bacteria/AMR with 2 CPUs
+[17:19:11] Running: cat results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.AMR\.tmp\.76138\.faa | parallel --gnu --plain -j 2 --block 23446 --recstart '>' --pipe blastp -query - -db /home/rosa/mambaforge/envs/defenv/db/kingdom/Bacteria/AMR -evalue 1e-300 -qcov_hsp_perc 90 -num_threads 1 -num_descriptions 1 -num_alignments 1 -seg no > results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.AMR\.tmp\.76138\.blast 2> /dev/null
+[17:19:14] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.AMR.tmp.76138.faa
+[17:19:14] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.AMR.tmp.76138.blast
+[17:19:14] There are still 909 unannotated CDS left (started with 945)
+[17:19:14] Will use blast to search against /home/rosa/mambaforge/envs/defenv/db/kingdom/Bacteria/sprot with 2 CPUs
+[17:19:14] Running: cat results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.sprot\.tmp\.76138\.faa | parallel --gnu --plain -j 2 --block 23446 --recstart '>' --pipe blastp -query - -db /home/rosa/mambaforge/envs/defenv/db/kingdom/Bacteria/sprot -evalue 1e-09 -qcov_hsp_perc 80 -num_threads 1 -num_descriptions 1 -num_alignments 1 -seg no > results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.sprot\.tmp\.76138\.blast 2> /dev/null
+[17:19:26] Modify product: Uncharacterized fimbrial-like protein SfmA => putative fimbrial-like protein SfmA
+[17:19:26] Modify product: Probable fimbrial chaperone YfcS => putative fimbrial chaperone YfcS
+[17:19:26] Modify product: Uncharacterized HTH-type transcriptional regulator YddM => putative HTH-type transcriptional regulator YddM
+[17:19:26] Modify product: Probable L,D-transpeptidase YnhG => putative L,D-transpeptidase YnhG
+[17:19:26] Modify product: Probable L,D-transpeptidase YbiS => putative L,D-transpeptidase YbiS
+[17:19:26] Modify product: Probable ATP synthase SpaL/MxiB => putative ATP synthase SpaL/MxiB
+[17:19:26] Modify product: Uncharacterized protein YnbD => putative protein YnbD
+[17:19:26] Modify product: Probable E3 ubiquitin-protein ligase ipaH7.8 => putative E3 ubiquitin-protein ligase ipaH7.8
+[17:19:26] Modify product: Prophage bactoprenol-linked glucose translocase homolog => Prophage bactoprenol-linked glucose translocase 
+[17:19:26] Modify product: Probable quinol monooxygenase YgiN => putative quinol monooxygenase YgiN
+[17:19:26] Modify product: Uncharacterized fimbrial-like protein YcbU => putative fimbrial-like protein YcbU
+[17:19:26] Modify product: Uncharacterized protein YibN => putative protein YibN
+[17:19:26] Modify product: Uncharacterized oxidoreductase YdhV => putative oxidoreductase YdhV
+[17:19:26] Modify product: Uncharacterized protein YbcJ => putative protein YbcJ
+[17:19:26] Modify product: Bifunctional protein FolD => Bifunctional protein FolD protein
+[17:19:26] Modify product: UPF0352 protein YejL => hypothetical protein
+[17:19:26] Modify product: UPF0758 protein CT0611 => hypothetical protein
+[17:19:26] Modify product: Probable HTH-type transcriptional regulator YgaV => putative HTH-type transcriptional regulator YgaV
+[17:19:26] Modify product: Uncharacterized inner membrane transporter YedA => putative inner membrane transporter YedA
+[17:19:26] Modify product: Uncharacterized protein YhhA => putative protein YhhA
+[17:19:26] Modify product: Probable iron export ATP-binding protein FetA => putative iron export ATP-binding protein FetA
+[17:19:26] Modify product: Uncharacterized fimbrial-like protein YraH => putative fimbrial-like protein YraH
+[17:19:26] Modify product: Uncharacterized protein YhcH => putative protein YhcH
+[17:19:26] Modify product: UPF0299 membrane protein YohJ => hypothetical protein
+[17:19:26] Modify product: Probable Ni/Fe-hydrogenase 2 b-type cytochrome subunit => putative Ni/Fe-hydrogenase 2 b-type cytochrome subunit
+[17:19:26] Modify product: Uncharacterized ferredoxin-like protein YdhY => putative ferredoxin-like protein YdhY
+[17:19:26] Modify product: Uncharacterized HTH-type transcriptional regulator YdjF => putative HTH-type transcriptional regulator YdjF
+[17:19:26] Modify product: UPF0758 protein => hypothetical protein
+[17:19:26] Modify product: Probable 4-amino-4-deoxy-L-arabinose-phosphoundecaprenol flippase subunit ArnE => putative 4-amino-4-deoxy-L-arabinose-phosphoundecaprenol flippase subunit ArnE
+[17:19:26] Modify product: Uncharacterized sugar kinase YdjH => putative sugar kinase YdjH
+[17:19:26] Modify product: Uncharacterized protein YceO => putative protein YceO
+[17:19:26] Modify product: UPF0053 inner membrane protein YoaE => hypothetical protein
+[17:19:26] Modify product: Uncharacterized protein YjjI => putative protein YjjI
+[17:19:26] Modify product: UPF0231 protein YacL => hypothetical protein
+[17:19:26] Modify product: UPF0053 inner membrane protein YfjD => hypothetical protein
+[17:19:26] Modify product: Putative multidrug export ATP-binding/permease protein SAV1866 => Putative multidrug export ATP-binding/permease protein
+[17:19:26] Modify product: Probable major fimbrial subunit LpfA => putative major fimbrial subunit LpfA
+[17:19:26] Modify product: Uncharacterized protein YcjY => putative protein YcjY
+[17:19:26] Cleaned 38 /product names
+[17:19:26] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.sprot.tmp.76138.faa
+[17:19:26] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.sprot.tmp.76138.blast
+[17:19:26] There are still 520 unannotated CDS left (started with 945)
+[17:19:26] Will use hmmer3 to search against /home/rosa/mambaforge/envs/defenv/db/hmm/HAMAP.hmm with 2 CPUs
+[17:19:26] Running: cat results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.HAMAP\.hmm\.tmp\.76138\.faa | parallel --gnu --plain -j 2 --block 12709 --recstart '>' --pipe hmmscan --noali --notextw --acc -E 1e-09 --cpu 1 /home/rosa/mambaforge/envs/defenv/db/hmm/HAMAP.hmm /dev/stdin > results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.HAMAP\.hmm\.tmp\.76138\.hmmer3 2> /dev/null
+[17:19:37] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.HAMAP.hmm.tmp.76138.faa
+[17:19:37] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.HAMAP.hmm.tmp.76138.hmmer3
+[17:19:37] Labelling remaining 510 proteins as 'hypothetical protein'
+[17:19:37] Possible /pseudo 'IS3 family transposase ISKpn38' at k141_173_pilon position 306
+[17:19:37] Possible /pseudo '6-phospho-alpha-glucosidase' at k141_311_pilon position 228
+[17:19:37] Possible /pseudo 'Phosphatidate cytidylyltransferase' at k141_1106_pilon position 254
+[17:19:37] Possible /pseudo '30S ribosomal protein S3' at k141_1222_pilon position 616
+[17:19:37] Possible /pseudo 'IS3 family transposase IS911' at k141_1527_pilon position 543
+[17:19:37] Possible /pseudo 'Potassium-transporting ATPase potassium-binding subunit' at k141_1676_pilon position 357
+[17:19:37] Found 375 unique /gene codes.
+[17:19:37] Fixed 2 duplicate /gene - kdpA_1 kdpA_2
+[17:19:37] Fixed 2 duplicate /gene - traI_1 traI_2
+[17:19:37] Fixed 2 duplicate /gene - rpsC_1 rpsC_2
+[17:19:37] Fixed 2 duplicate /gene - preA_1 preA_2
+[17:19:37] Fixed 2 duplicate /gene - lsrB_1 lsrB_2
+[17:19:37] Fixed 2 duplicate /gene - cdsA_1 cdsA_2
+[17:19:37] Fixed 2 duplicate /gene - ipaH3_1 ipaH3_2
+[17:19:37] Fixed 2 duplicate /gene - ccmH_1 ccmH_2
+[17:19:37] Fixed 3 duplicate /gene - rop_1 rop_2 rop_3
+[17:19:37] Fixed 2 duplicate /gene - traD_1 traD_2
+[17:19:37] Fixed 2 duplicate /gene - aglB_1 aglB_2
+[17:19:37] Fixed 2 duplicate /gene - acpP_1 acpP_2
+[17:19:37] Fixed 12 colliding /gene names.
+[17:19:37] Adding /locus_tag identifiers
+[17:19:37] Assigned 959 locus_tags to CDS and RNA features.
+[17:19:37] Writing outputs to results/assembly/annotation//
+[17:19:38] Generating annotation statistics file
+[17:19:38] Generating Genbank and Sequin files
+[17:19:38] Running: tbl2asn -V b -a r10k -l paired-ends -M n -N 1 -y 'Annotated using prokka 1.14.6 from https://github.com/tseemann/prokka' -Z results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.err -i results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.fsa 2> /dev/null
+[tbl2asn-forever] Found Prokka input, correcting dates in .gbf|.sqn files.
+[tbl2asn-forever] Correcting dates in results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.gbf
+[tbl2asn-forever] Correcting dates in results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.sqn
+[tbl2asn-forever] Dates changed from 01-JAN-2019 to 08-JUL-2023
+[17:19:41] Deleting unwanted file: results/assembly/annotation//errorsummary.val
+[17:19:41] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.dr
+[17:19:41] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.fixedproducts
+[17:19:41] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.ecn
+[17:19:41] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.val
+[17:19:41] Repairing broken .GBK output that tbl2asn produces...
+[17:19:41] Running: sed 's/COORDINATES: profile/COORDINATES:profile/' < results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.gbf > results\/assembly\/annotation\/\/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a\.gbk
+[17:19:41] Deleting unwanted file: results/assembly/annotation//SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.gbf
+[17:19:41] Output files:
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.txt
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.tbl
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.fna
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.gff
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.gbk
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.ffn
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.tsv
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.fsa
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.log
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.err
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.faa
+[17:19:41] results/assembly/annotation/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.sqn
+[17:19:41] Annotation finished successfully.
+[17:19:41] Walltime used: 0.63 minutes
+[17:19:41] If you use this result please cite the Prokka paper:
+[17:19:41] Seemann T (2014) Prokka: rapid prokaryotic genome annotation. Bioinformatics. 30(14):2068-9.
+[17:19:41] Type 'prokka --citation' for more details.
+[17:19:41] Thank you, come again.

@@ -1,0 +1,61 @@
+/home/rosa/mambaforge/envs/defenv/bin/quast --threads 1 -o results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a results/assembly/megahit/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.contigs.fa
+
+Version: 5.2.0
+
+System information:
+  OS: Linux-5.15.0-75-generic-x86_64-with-debian-bullseye-sid (linux_64)
+  Python version: 3.7.16
+  CPUs number: 4
+
+Started: 2023-07-08 18:12:37
+
+Logging to /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/quast.log
+
+CWD: /home/rosa/SequencingAnalysis/FinalProject
+Main parameters: 
+  MODE: default, threads: 1, min contig length: 500, min alignment length: 65, min alignment IDY: 95.0, \
+  ambiguity: one, min local misassembly length: 200, min extensive misassembly length: 1000
+
+Contigs:
+  Pre-processing...
+  results/assembly/megahit/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.contigs.fa ==> SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.contigs
+
+2023-07-08 18:12:38
+Running Basic statistics processor...
+  Contig files: 
+    SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.contigs
+  Calculating N50 and L50...
+    SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.contigs, N50 = 703, L50 = 201, auN = 1138.2, Total length = 432994, GC % = 49.39, # N's per 100 kbp =  0.00
+  Drawing Nx plot...
+    saved to /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/basic_stats/Nx_plot.pdf
+  Drawing cumulative plot...
+    saved to /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/basic_stats/cumulative_plot.pdf
+  Drawing GC content plot...
+    saved to /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/basic_stats/GC_content_plot.pdf
+  Drawing SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.contigs GC content plot...
+    saved to /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/basic_stats/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a.contigs_GC_content_plot.pdf
+Done.
+
+NOTICE: Genes are not predicted by default. Use --gene-finding or --glimmer option to enable it.
+
+2023-07-08 18:12:38
+Creating large visual summaries...
+This may take a while: press Ctrl-C to skip this step..
+  1 of 2: Creating PDF with all tables and plots...
+  2 of 2: Creating Icarus viewers...
+Done
+
+2023-07-08 18:12:39
+RESULTS:
+  Text versions of total report are saved to /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/report.txt, report.tsv, and report.tex
+  Text versions of transposed total report are saved to /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/transposed_report.txt, transposed_report.tsv, and transposed_report.tex
+  HTML version (interactive tables and plots) is saved to /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/report.html
+  PDF version (tables and plots) is saved to /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/report.pdf
+  Icarus (contig browser) is saved to /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/icarus.html
+  Log is saved to /home/rosa/SequencingAnalysis/FinalProject/results/qc/wgs/quast/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a/quast.log
+
+Finished: 2023-07-08 18:12:39
+Elapsed time: 0:00:01.420765
+NOTICEs: 1; WARNINGs: 0; non-fatal ERRORs: 0
+
+Thank you for using QUAST!

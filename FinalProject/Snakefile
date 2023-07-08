@@ -6,6 +6,18 @@ configfile: "config/config.yaml"
 
 samples = pd.read_csv(config["samples"], index_col="sample", sep='\t')
 
+wgs_path = config["wgs_data"]
+wgs_name = os.path.basename(wgs_path)
+numbers=[1,2] # to index through the two fastq files
+
+cont_table = pd.DataFrame()
+if os.path.isfile(config["contaminations"]):
+	cont_table=pd.read_csv(config["contaminations"], index_col="name", sep="\t")
+
+def get_contamination(wildcards):
+	cont=wildcards.cont
+	path=cont_table.loc[cont][0]
+	return path
 
 def get_fastq_pair1(wildcards):
 	sample = wildcards.sample
@@ -38,17 +50,23 @@ def get_fqs_for_downstream(wildcards):
 		return [samples.loc[wildcards.sample][0], samples.loc[wildcards.sample][1]]
 
 
-numbers=[1,2]
+
 
 #include: "rules/reference_mapping.smk"
 #include: "rules/qc_preprocessing.smk"  #quality control
-#include: "rules/denovo_assembly.smk" #de novo assembly
-include: "rules/obtaining_geneseq.smk"
+include: "rules/assembly.smk" #de novo assembly with qc, preprocessing,...
+#include: "rules/obtaining_geneseq.smk"
+include: "rules/screen.smk"
 
 rule all:
 	input:
-		#"results/qc/multiqc_report.html",
+		"results/qc/wgs/multiqc_report.html",
+		"results/assembly/megahit/" + wgs_name + "/done",
+		"results/assembly/pilon/"+ wgs_name + ".fasta",
+		"results/assembly/annotation/" + wgs_name + ".gff",
+		"results/qc/wgs/multiqc_report.html"
 		## either de novo if reference file is not given otherwise STAR and featurecounts
 		#"results/gene_sequences/gene_list.tsv",
-		expand( "results/gene_sequences/{sample}.tsv", sample= list(samples.index))
+		#expand( "results/gene_sequences/{sample}.tsv", sample= list(samples.index))
+
 

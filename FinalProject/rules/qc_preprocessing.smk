@@ -53,6 +53,7 @@ rule fastqc_trimmed:
 		"v1.31.1/bio/fastqc"
 
 
+
 rule run_multiqc:
 	input:
 		[expand("results/qc/raw/{sample}_{index}_fastqc.html", index=numbers, sample = list(samples.index)),
