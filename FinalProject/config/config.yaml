@@ -2,13 +2,13 @@
 
 
 #samples
-samples: "config/samples.tsv"
+samples: "config/samples_test.tsv"
 
 #fastq: "../data"
 
 # either reference is given
-ref: "" #data/chr22_with_ERCC92.fa"
-ref_anno: "" # "data/chr22_with_ERCC92.gtf"
+ref: "/home/rosa/SequencingAnalysis_Proj/Project2/data/chr22_with_ERCC92.fa"
+ref_anno: "/home/rosa/SequencingAnalysis_Proj/Project2/data/chr22_with_ERCC92.gtf"
 # or wgs data for de novo assembly
 # path to folder and sample name
 wgs_data: "assembly/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a"
@@ -27,6 +27,8 @@ software:
     indx_threads: 1
     align_threads: 1
     align_extra: ""
+  feature_counts:
+    threads: 1
   cutadapt:
     adapters: "-a AGAGCACACGTCTGAACTCCAGTCAC -g AGATCGGAAGAGCACACGT -A AGAGCACACGTCTGAACTCCAGTCAC -G AGATCGGAAGAGCACACGT"
     extra: "--minimum-length 1 -q 20"

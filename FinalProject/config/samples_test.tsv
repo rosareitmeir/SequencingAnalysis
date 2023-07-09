@@ -1,0 +1,3 @@
+sample	fq1	fq2
+hcc1395_normal_rep1	/home/rosa/SequencingAnalysis_Proj/Project2/data/hcc1395_normal_rep1_r1.fastq.gz	/home/rosa/SequencingAnalysis_Proj/Project2/data/hcc1395_normal_rep1_r2.fastq.gz
+hcc1395_tumor_rep1	/home/rosa/SequencingAnalysis_Proj/Project2/data/hcc1395_tumor_rep1_r1.fastq.gz	/home/rosa/SequencingAnalysis_Proj/Project2/data/hcc1395_tumor_rep1_r2.fastq.gz

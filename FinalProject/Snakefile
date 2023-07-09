@@ -32,41 +32,37 @@ def get_fastq_pair2(wildcards):
 def get_fq1_for_downstream(wildcards):
 	if config["use_trimmed"]:
 		#return wildcards.sample
-		return ["results/trimmed/"+ wildcards.sample + "_1.fastq"]
+		return ["results/trimmed/RNA_seq/"+ wildcards.sample + "_1.fastq"]
 	else:
 		return [str(samples.loc[wildcards.sample][0])]
 
 def get_fq2_for_downstream(wildcards):
 	if config["use_trimmed"]:
 		#return wildcards.sample
-		return [ "results/trimmed/"+ wildcards.sample + "_2.fastq"]
+		return [ "results/trimmed/RNA_seq/"+ wildcards.sample + "_2.fastq"]
 	else:
 		return [str(samples.loc[wildcards.sample][1])]
 
 def get_fqs_for_downstream(wildcards):
 	if config["use_trimmed"]:
-		return ["results/trimmed/" + wildcards.sample + "_1.fastq", "results/trimmed/" + wildcards.sample + "_2.fastq"]
+		return ["results/trimmed/RNA_seq/" + wildcards.sample + "_1.fastq", "results/trimmed/RNA_seq/" + wildcards.sample + "_2.fastq"]
 	else:
 		return [samples.loc[wildcards.sample][0], samples.loc[wildcards.sample][1]]
 
 
 
 
-#include: "rules/reference_mapping.smk"
-#include: "rules/qc_preprocessing.smk"  #quality control
+include: "rules/reference_mapping.smk"
 include: "rules/assembly.smk" #de novo assembly with qc, preprocessing,...
-#include: "rules/obtaining_geneseq.smk"
 include: "rules/screen.smk"
+#include: "rules/phylogenetic.smk" # with gene sequence obtaining + MSA + tree generation
+#include: "rules/DEG_analysis.smk"
+
 
 rule all:
 	input:
-		"results/qc/wgs/multiqc_report.html",
-		"results/assembly/megahit/" + wgs_name + "/done",
-		"results/assembly/pilon/"+ wgs_name + ".fasta",
-		"results/assembly/annotation/" + wgs_name + ".gff",
-		"results/qc/wgs/multiqc_report.html"
-		## either de novo if reference file is not given otherwise STAR and featurecounts
-		#"results/gene_sequences/gene_list.tsv",
-		#expand( "results/gene_sequences/{sample}.tsv", sample= list(samples.index))
+		"results/qc/RNA_seq/multiqc_report.html" if os.path.exists(config["ref"]) else ["results/qc/wgs/multiqc_report.html", "results/qc/RNA_seq/multiqc_report.html" ],
+		multiext("results/featurecounts/allsamples", ".featureCounts", ".featureCounts.summary", ".featureCounts.jcounts")
+
 
 

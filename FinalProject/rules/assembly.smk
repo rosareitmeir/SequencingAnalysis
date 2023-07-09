@@ -219,7 +219,7 @@ rule genome_annotation:
 
 	output:
 		multiext("results/assembly/annotation/" + wgs_name ,
-		".err", "faa","ffn","fna","fsa", "gbk", "gff", "log", "sqn", "tbl", "tsv", "txt")
+		".err", ".faa",".ffn",".fna",".fsa", ".gbk", ".gff", ".log", ".sqn", ".tbl", ".tsv", ".txt")
 
 	params:
 		prefix= wgs_name,
