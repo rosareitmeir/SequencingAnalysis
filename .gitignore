@@ -1,4 +1,12 @@
 FinalProject/.idea/
-FinalProject/.snakemake
+FinalProject/.snakemake/
 FinalProject/gurobi.log
 FinalProject/results/
+FinalProject/assembly/
+FinalProject/contaminations/
+FinalProject/database/
+FinalProject/data/
+FinalProject/logs/
+FinalProject/Snakefile
+FinalProject/reference/
+

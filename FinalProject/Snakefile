@@ -4,7 +4,9 @@ import os
 #relative to working directory
 configfile: "config/config.yaml"
 
-samples = pd.read_csv(config["samples"], index_col="sample", sep='\t')
+samples = pd.read_csv(config["samples"], sep='\t' )
+samples['sample'] = samples['sample'].astype(str)
+samples.set_index('sample', inplace=True)
 
 wgs_path = config["wgs_data"]
 wgs_name = os.path.basename(wgs_path)
@@ -63,6 +65,4 @@ rule all:
 	input:
 		"results/qc/RNA_seq/multiqc_report.html" if os.path.exists(config["ref"]) else ["results/qc/wgs/multiqc_report.html", "results/qc/RNA_seq/multiqc_report.html" ],
 		multiext("results/featurecounts/allsamples", ".featureCounts", ".featureCounts.summary", ".featureCounts.jcounts")
-
-
 

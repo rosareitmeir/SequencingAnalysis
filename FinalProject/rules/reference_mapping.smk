@@ -71,68 +71,38 @@ rule convert_to_gtf:
     shell:
         "gffread {input} -T -o {output} &>{log}"
 
-
-rule build_index:
+rule hisat_build_index:
     input:
-        ref=config["ref"] if os.path.exists(config["ref"]) else "results/assembly/pilon/"+ wgs_name + ".fasta",
-        gtf=config["ref_anno"] if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
+        genome= config["ref"] if os.path.exists(config["ref"]) else "results/assembly/pilon/"+ wgs_name + ".fasta"
     output:
-        directory("reference/genome_idx"),
-        "reference/genome_idx/Genome",
-        "reference/genome_idx/genomeParameters.txt",
-        "reference/genome_idx/sjdbInfo.txt",
-        "reference/genome_idx/sjdbList.fromGTF.out.tab",
-
-    threads:
-        config["software"]["star"]["indx_threads"]
-    conda:
-        "../envs/env.yaml"
-    log:
-        "logs/star/build_idx.log"
-    shell:
-        "STAR --runThreadN {threads} --runMode genomeGenerate --genomeDir {output[0]} --genomeFastaFiles {input.ref} --sjdbGTFfile {input.gtf} &> {log}"
-
-
-def get_fq1_for_star(wildcards):
-	if config["use_trimmed"]:
-		return "results/trimmed/RNA_seq/"+ wildcards.sample + "_1.fastq"
-	else:
-		return samples.loc[wildcards.sample][0]
-
-def get_fq2_for_star(wildcards):
-	if config["use_trimmed"]:
-		return  "results/trimmed/RNA_seq/"+ wildcards.sample + "_2.fastq"
-	else:
-		return samples.loc[wildcards.sample][1]
-
-
-rule star_pe_multi:
-    input:
-        # use a list for multiple fastq files for one sample
-        # usually technical replicates across lanes/flowcells
-        fq1=get_fq1_for_star,
-        # paired end reads needs to be ordered so each item in the two lists match
-        fq2=get_fq2_for_star,  #optional
-        # path to STAR reference genome index
-        idx="reference/genome_idx",
-    output:
-        # see STAR manual for additional output files
-        aln="results/star/pe/{sample}/pe_aligned.sam",
-        log="logs/pe/{sample}/Log.out",
-        sj="results/star/pe/{sample}/SJ.out.tab",
-    log:
-        "logs/star/pe/{sample}.log",
+        directory("results/hisat2/genome_idx/"),
+        expand("results/hisat2/genome_idx/genome_idx.{number}.ht2", number=[1,8])
     params:
-        # optional parameters
-        extra=config["software"]["star"]["align_extra"],
+        threads= config["software"]["hisat2"]["threads"]
+    log:
+        "logs/hisat/build_genome_idx.log"
+    shell:
+        "hisat2-build -p  {params.threads} {input} results/hisat2/genome_idx/genome_idx &>{log}"
 
-    threads: config["software"]["star"]["align_threads"]
+
+rule hisat2_align:
+    input:
+        reads= get_fqs_for_downstream,
+        idx="results/hisat2/genome_idx/",
+    output:
+        "results/hisat2/mapped/{sample}.bam",
+    log:
+        "logs/hisat2/{sample}_align.log",
+    params:
+        extra="",
+    threads: 1
     wrapper:
-        "v2.0.0/bio/star/align"
+        "v2.2.0/bio/hisat2/align"
+
 
 rule feature_counts:
     input:
-        sam=expand("results/star/pe/{sample}/pe_aligned.sam" , sample=list(samples.index)), # list of sam or bam files
+        sam=expand("results/hisat2/mapped/{sample}.sam" , sample=list(samples.index)), # list of sam or bam files
         annotation=config["ref_anno"] if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
         # optional input
         # chr_names="",           # implicitly sets the -A flag
@@ -147,7 +117,7 @@ rule feature_counts:
     params:
         tmp_dir="",   # implicitly sets the --tmpDir flag
         r_path="",    # implicitly sets the --Rpath flag
-        extra="-O --fracOverlap 0.2 -p"
+        extra="-O --fracOverlap 0.2 -p -t transcript"
     log:
         "logs/featurecounts/featurecounts.log"
     wrapper:
@@ -156,28 +126,27 @@ rule feature_counts:
 
 ################### Mapping QC & MultiQC ###########################################
 
-rule RNAseq_samtobam:
+rule RNAseq_bamtosam:
 	input:
-		"results/star/pe/{sample}/pe_aligned.sam"
+		"results/hisat2/mapped/{sample}.bam"
 	output:
-		"results/star/pe/{sample}/pe_aligned.bam"
+		"results/hisat2/mapped/{sample}.sam"
 	log:
-		"logs/samtools/samtobam/{sample}.log"
+		"logs/samtools/bamtosam/{sample}.log"
 	conda:
 		"../envs/env.yaml"
 	threads:
 		config["software"]["samtools"]["threads"]
 	shell:
-		"samtools view -@ {threads} -Sb {input} > {output} 2> {log}"
+		"samtools view -@ {threads} -h -o  {output}  {input} 2> {log}"
 
 rule qualimap:
     input:
-        # BAM aligned, splicing-aware, to reference genome
-        bam="results/star/pe/{sample}/pe_aligned.bam",
+        bam="results/hisat2/mapped/{sample}.bam",
         # GTF containing transcript, gene, and exon data
         gtf= config["ref_anno"] if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
     output:
-        directory("results/qc/RNA_seq/mapping/{sample}") 
+        directory("results/qc/RNA_seq/mapping/{sample}")
     log:
         "logs/qualimap/{sample}.log"
     # optional specification of memory usage of the JVM that snakemake will respect with global
