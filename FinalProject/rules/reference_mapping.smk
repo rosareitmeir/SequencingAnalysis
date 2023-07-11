@@ -56,16 +56,18 @@ rule fastqc_trimmed:
 
 ################################################### Reference Mapping & Gene Counting ###################################################################
 
-## building STAR index
-# for de nov assembly transfer gff to gtf
+## building hisat2 index
+# for de novo assembly/if user given annotation file is gff, transfer gff to gtf for hisat2
+
 rule convert_to_gtf:
     input:
-        "results/assembly/annotation/" + wgs_name + ".gff"
+        #"results/assembly/annotation/" + wgs_name + ".gff"
+        anno=config["ref_anno"] if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gff"
     output:
-        "results/assembly/annotation/" + wgs_name + ".gtf"
+        #"results/assembly/annotation/" + wgs_name + ".gtf"
+        "results/annotation/" + anno_basename + ".gtf" if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gff"
     log:
-        "logs/gtf_convertion/"+ wgs_name + ".log"
-
+        "logs/gtf_convertion/" + anno_basename + ".log" if os.path.exists(config["ref_anno"]) else "logs/gtf_convertion/" + wgs_name + ".log"
     conda:
         "../envs/env.yaml"
     shell:
@@ -73,7 +75,7 @@ rule convert_to_gtf:
 
 rule hisat_build_index:
     input:
-        genome= config["ref"] if os.path.exists(config["ref"]) else "results/assembly/pilon/"+ wgs_name + ".fasta"
+        genome=config["ref"] if os.path.exists(config["ref"]) else "results/assembly/pilon/"+ wgs_name + ".fasta"
     output:
         directory("results/hisat2/genome_idx/"),
         expand("results/hisat2/genome_idx/genome_idx.{number}.ht2", number=[1,8])
@@ -102,8 +104,8 @@ rule hisat2_align:
 
 rule feature_counts:
     input:
-        sam=expand("results/hisat2/mapped/{sample}.sam" , sample=list(samples.index)), # list of sam or bam files
-        annotation=config["ref_anno"] if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
+        sam=expand("results/hisat2/mapped/{sample}.bam" , sample=list(samples.index)), # list of sam or bam files
+        annotation="results/annotation/" + anno_basename + ".gtf" if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
         # optional input
         # chr_names="",           # implicitly sets the -A flag
         # fasta="genome.fasta"      # implicitly sets the -G flag
@@ -144,7 +146,8 @@ rule qualimap:
     input:
         bam="results/hisat2/mapped/{sample}.bam",
         # GTF containing transcript, gene, and exon data
-        gtf= config["ref_anno"] if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
+        #gtf= config["ref_anno"] if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
+        gtf="results/annotation/" + anno_basename + ".gtf" if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
     output:
         directory("results/qc/RNA_seq/mapping/{sample}")
     log:
@@ -171,3 +174,8 @@ rule RNA_Seq_multiqc:
         "../envs/env.yaml"
     shell:
         "multiqc results/qc/RNA_seq  -o results/qc/RNA_seq &> {log}"
+
+
+################### Multiple Sequence Alignment ###########################################
+
+
