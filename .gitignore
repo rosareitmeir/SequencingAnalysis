@@ -9,3 +9,6 @@ FinalProject/data/
 FinalProject/logs/
 FinalProject/reference/
 
+# Don't check in individual config.yaml
+FinalProject/config/config.yaml
+
