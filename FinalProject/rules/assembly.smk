@@ -312,24 +312,39 @@ rule quast_polishing:
 
 
 ## BUSCO to check assembly and annotation
+## miniBUSCO has been changed to Compleasm
 
-rule run_busco_prok:
+#rule run_busco_prok:#
+#	input:
+#		"results/assembly/pilon/" + wgs_name + ".fasta",
+#	output:
+#		out_dir=directory("results/qc/busco/txome_busco/prok"),
+#		dataset_dir=directory("resources/busco_downloads"),
+#	log:
+#		"logs/proteins_busco_prok.log",
+#	params:
+#		mode="proteins",
+#		extra="--auto-lineage-prok",
+#
+#	threads: config["software"]["busco"]["threads"]
+#
+#	wrapper:
+#		"v2.2.0/bio/busco"
+
+rule run_compleasm:
 	input:
-		"results/assembly/pilon/" + wgs_name + ".fasta",
+		"results/assembly/pilon/" + wgs_name + ".fasta"
 	output:
-		out_dir=directory("results/qc/busco/txome_busco/prok"),
-		dataset_dir=directory("resources/busco_downloads"),
+		out_dir=directory("results/qc/compleasm/txome_busco/prok")
 	log:
-		"logs/proteins_busco_prok.log",
+		"logs/compleasm/proteins_compleasm_prok.log"
 	params:
-		mode="proteins",
-		extra="--auto-lineage-prok",
-
-	threads: config["software"]["busco"]["threads"]
-
-	wrapper:
-		"v2.2.0/bio/busco"
-
+		mode="busco", #modes are busco or lite, lite: Without using hmmsearch to filtering protein alignment. busco: Using hmmsearch on all candidate predicted proteins to purify the miniprot alignment to improve accuracy.
+		extra="--autolineage" #uses sepp to auto determine lineage needed
+	threads:
+		config["software"]["compleasm"]["threads"]
+	shell:
+		"compleasm run {params} -a {input} -o {output.out_dir}"
 
 
 rule wgs_run_multiqc:
