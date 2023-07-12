@@ -50,4 +50,3 @@ rule bowtie_index:
     shell:
         "bowtie2-build -f {input.reference} contaminations/{wildcards.cont} &> {log}"
 
-

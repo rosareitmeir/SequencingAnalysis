@@ -12,3 +12,8 @@ FinalProject/reference/
 # Don't check in individual config.yaml
 FinalProject/config/config.yaml
 
+# data
+DATA/
+
+# ignore macOS files
+**/.DS_Store
