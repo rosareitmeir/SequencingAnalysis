@@ -1,3 +1,8 @@
+### rule for MSA
+
+
+
+
 rule fasttree:
     input:
         alignment="results/msa/max_scaffolds.msa.fa" # Input alignment file
@@ -24,19 +29,3 @@ rule toytree:
         "../envs/env.yaml"
     script:
         "../scripts/tree_view.py"
-
-
-rule variability_measure:
-    input:
-        "results/msa/max_scaffolds.msa.fa"
-
-    output:
-        "results/variability/var.txt",
-        "results/variability/variability.png"
-
-    params:
-        window_size=config["software"]["seq_var"]["window_size"]
-    conda:
-        "../envs/env.yaml"
-    script:
-        "../scripts/seq_var.py"

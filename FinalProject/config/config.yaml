@@ -53,5 +53,8 @@ software:
     threads: 1
   quast:
     extra: ""
-  OGS:
+  consensus:
+    call_d: 5  # samtools paramter d : making a call when specfified depth d is presented
     min_coverage: 0.9
+  compleasm:
+    threads: 1
