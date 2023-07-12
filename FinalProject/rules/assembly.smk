@@ -344,7 +344,7 @@ rule run_compleasm:
 	threads:
 		config["software"]["compleasm"]["threads"]
 	shell:
-		"compleasm run {params} -a {input} -o {output.out_dir}"
+		"compleasm run -m {params.mode} {params.extra} -a {input} -o {output.out_dir} 2>> {log}"
 
 
 rule wgs_run_multiqc:
