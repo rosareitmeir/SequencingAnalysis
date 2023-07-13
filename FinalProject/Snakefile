@@ -12,14 +12,12 @@ wgs_path = config["wgs_data"]
 wgs_name = os.path.basename(wgs_path)
 numbers=[1,2] # to index through the two fastq files
 
-cont_table = pd.DataFrame()
-if os.path.isfile(config["contaminations"]):
-	cont_table=pd.read_csv(config["contaminations"], index_col="name", sep="\t")
+anno_file = os.path.basename(config["ref_anno"]) if os.path.exists(config["ref_anno"]) else "None" #TODO check it works in all cases 
+anno_basename = os.path.splitext(anno_file)[0] if os.path.exists(config["ref_anno"]) else "None" #get basename of annotation file, to convert to gff
 
-def get_contamination(wildcards):
-	cont=wildcards.cont
-	path=cont_table.loc[cont][0]
-	return path
+# Path and basefilename for contaminations.fa, place bowtie index in the same location with basename
+cont_path = os.path.dirname(config["contaminations"])
+cont_name = os.path.basename(cont_path)
 
 def get_fastq_pair1(wildcards):
 	sample = wildcards.sample
@@ -58,7 +56,7 @@ include: "rules/reference_mapping.smk"
 include: "rules/assembly.smk" #de novo assembly with qc, preprocessing,...
 include: "rules/screen.smk"
 include: "rules/obtaining_geneseq.smk"
-#include: "rules/phylogenetic.smk" # with gene sequence obtaining + MSA + tree generation
+#include: "rules/phylogenetic.smk" # + MSA + tree generation
 #include: "rules/DEG_analysis.smk"
 
 
