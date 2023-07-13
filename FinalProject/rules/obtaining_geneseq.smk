@@ -48,11 +48,6 @@ rule samtools_faidx:
     wrapper:
         "v2.2.0/bio/samtools/faidx"
 
-# Obtain one region to run consensus rule
-#regions = pd.read_csv("results/gene_sequences/gene_list.tsv", sep='\t')
-#regions["Gene"] = regions.iloc[:,1].astype(str)+":"+regions.iloc[:,2].astype(str)+"-"+regions.iloc[:,3].astype(str)
-#gene_regions = list(regions.iloc[:,1].astype(str)+":"+regions.iloc[:,2].astype(str)+"-"+regions.iloc[:,3].astype(str))
-
 rule samtools_consensus:
     input:
         bam="results/hisat2/mapped/{sample}_sorted.bam",
@@ -65,7 +60,8 @@ rule samtools_consensus:
     log:
         "logs/obtain_gene_seqs/samtools_consensus/{sample}.log",
     params:
-       d=config["software"]["consensus"]["call_d"],
+       #d=config["software"]["consensus"]["call_d"],
+       d=config["software"]["samtools"]["consensus"]["min_depth"]
     shell:
         """
         while read a b c d; do 
@@ -90,7 +86,7 @@ rule filter_out_genes:
         "logs/obtain_gene_seqs/filter_genes/{sample}.log"
 
     params:
-        min_coverage = config["software"]["consensus"]["min_coverage"]
+        #min_coverage = config["software"]["consensus"]["min_coverage"]
 
     script:
         "../scripts/FilterGenes.py"
@@ -122,40 +118,3 @@ rule create_merged_sequences:
 
     script:
         "../scripts/MergeSequences.py"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
