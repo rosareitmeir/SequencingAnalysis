@@ -1,8 +1,6 @@
 ### rule for MSA
 
 
-
-
 rule fasttree:
     input:
         alignment="results/msa/max_scaffolds.msa.fa" # Input alignment file

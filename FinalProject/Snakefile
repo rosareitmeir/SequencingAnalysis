@@ -62,7 +62,11 @@ include: "rules/obtaining_geneseq.smk"
 
 rule all:
 	input:
-		"results/qc/compleasm/txome_busco/prok"
+		expand("results/consensus/{sample}/{sample}_gene_seqs.fasta",sample=list(samples.index)),
+
+		"results/consensus/MSAinput.fasta"
+
+#"results/qc/compleasm/txome_busco/prok"
 		#"results/qc/RNA_seq/multiqc_report.html" if os.path.exists(config["ref"]) else ["results/qc/wgs/multiqc_report.html", "results/qc/RNA_seq/multiqc_report.html" ],
 		#multiext("results/featurecounts/allsamples", ".featureCounts", ".featureCounts.summary", ".featureCounts.jcounts")
 		#"results/consensus/MSAinput.fasta"

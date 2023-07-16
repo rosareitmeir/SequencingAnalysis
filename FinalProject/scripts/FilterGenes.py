@@ -7,11 +7,10 @@ kept_genes=[]
 for record in SeqIO.parse(fasta_file, "fasta"):
     # Access the sequence ID
     sequence_id = record.id
-    header = record.description.split(" ")
     # Access the sequence
     sequence = record.seq
     Ncounts= sequence.count("N")
-    GeneLength= int(header[3]) - int(header[2]) +1
+    GeneLength= len(sequence)
     if Ncounts/GeneLength <= maxNs:
         kept_seqs.append(record)
         kept_genes.append(record.id)
