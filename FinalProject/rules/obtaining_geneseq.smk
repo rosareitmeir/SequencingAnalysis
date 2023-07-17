@@ -5,6 +5,8 @@ rule create_gene_bed:
     output:
         "results/consensus/gene_list.bed"
     # get rid of the header, saving gene name, "chr/contig", gene start and gene end
+    log:
+        "logs/gene_bed/create_gene_bed.log"
     params:
         expression= r"""{{print $2 "\t" $3 "\t" $4 "\t" $1}}"""
     shell:
@@ -18,6 +20,8 @@ rule sort_bam:
         "results/hisat2/mapped/{sample}_sorted.bam"
     conda:
         "../envs/env.yaml"
+    log:
+        "logs/samtools/{sample}_sorting.log"
     shell:
         "samtools sort {input} > {output}"
 
@@ -30,7 +34,7 @@ rule index_bam:
     conda:
         "../envs/env.yaml"
     log:
-        "logs/samtools/{sample}indexing.log"
+        "logs/samtools/{sample}_indexing.log"
     shell:
         "samtools index {input} 2>> {log}"
 
@@ -42,7 +46,7 @@ rule samtools_faidx:
         genome=config["ref"] if os.path.exists(config["ref"]) else "results/assembly/pilon/"+ wgs_name + ".fasta"
     output:
         #"{sample}.fa.fai",
-        ref_path + ".fai" if os.path.exists(config["ref"]) else "results/assembly/pilon/"+ wgs_name + ".fasta.fai" #TODO check proper naming
+        ref_path + ".fai" if os.path.exists(config["ref"]) else "results/assembly/pilon/"+ wgs_name + ".fasta.fai" 
     log:
         "logs/samtools/reference_faidx.log",
     params:
@@ -69,7 +73,7 @@ rule samtools_whole_consensus:
         "samtools consensus  -f fasta {input.bam} -d {params.d} -o {output} --show-del yes -a --show-ins yes 2>> {log}"
 
 
-rule extract_gene_sequecnes:
+rule extract_gene_sequences:
     input:
         gene_bed = "results/consensus/gene_list.bed",
         consensus= "results/consensus/{sample}/{sample}_WholeConsensus.fasta"
@@ -83,46 +87,18 @@ rule extract_gene_sequecnes:
         "bedtools getfasta -name -fi {input.consensus} -bed {input.gene_bed} -fo {output} 2> {log}"
 
 
-rule samtools_consensus:
-    input:
-        bam="results/hisat2/mapped/{sample}_sorted.bam",
-        bam_idx="results/hisat2/mapped/{sample}_sorted.bam.bai",
-        gene_list="results/gene_sequences/gene_list.tsv"
-    output:
-       "results/consensus/{sample}/{sample}_ConsensusSeqs.fasta",
-    conda:
-        "../envs/env.yaml"
-    log:
-        "logs/obtain_gene_seqs/samtools_consensus/{sample}.log",
-    params:
-       #d=config["software"]["consensus"]["call_d"],
-       d=config["software"]["samtools"]["consensus"]["min_depth"]
-    shell:
-        """
-        while read a b c d; do 
-            seq=$(samtools consensus -r "$b:$c-$d" -f fasta {input.bam} -d {params.d} --show-del yes -a --show-ins yes 2>> {log} | sed 1d ) ;
-            echo -e ">$a $b $c $d\n$seq" >> {output} ;
-            done < {input.gene_list}
-            """
-        ## a: gene name , b: chr/contig, c: gene start , d: gene end
-
-
 ## filter out genes that do not have sufficient coverage for each sample
 rule filter_out_genes:
     input:
         "results/consensus/{sample}/{sample}_gene_seqs.fasta"
-
     output:
         "results/consensus/{sample}/{sample}_minCov_genes.txt",
         "results/consensus/{sample}/{sample}_minCov_ConsensusSeqs.fasta"
-
-
     log:
         "logs/obtain_gene_seqs/filter_genes/{sample}.log"
 
     params:
         min_coverage = config["software"]["consensus"]["min_coverage"]
-
     script:
         "../scripts/FilterGenes.py"
 
@@ -130,7 +106,6 @@ rule filter_out_genes:
 rule create_subset:
     input:
         expand("results/consensus/{sample}/{sample}_minCov_genes.txt", sample=list(samples.index))
-
     output:
         "results/consensus/Subset_Genes.txt"
     shell:
@@ -147,9 +122,7 @@ rule create_merged_sequences:
     input:
         fastas=expand("results/consensus/{sample}/{sample}_minCov_ConsensusSeqs.fasta", sample=list(samples.index)),
         genes="results/consensus/Subset_Genes.txt"
-
     output:
         "results/consensus/MSAinput.fasta"
-
     script:
         "../scripts/MergeSequences.py"
