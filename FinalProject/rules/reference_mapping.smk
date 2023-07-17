@@ -174,8 +174,3 @@ rule RNA_Seq_multiqc:
         "../envs/env.yaml"
     shell:
         "multiqc results/qc/RNA_seq  -o results/qc/RNA_seq &> {log}"
-
-
-################### Multiple Sequence Alignment ###########################################
-
-
