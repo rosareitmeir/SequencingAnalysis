@@ -1,11 +1,26 @@
-### rule for MSA
+################### Multiple Sequence Alignment ###########################################
 
+rule msa_clustalo:
+	input:
+		"results/consensus/MSAinput.fasta"
+	output:
+		"results/msa/MSA.msa.fa"
+	params:
+		extra=""
+	log:
+		"logs/clustalo/msa.log"
+	threads:
+		config["software"]["clustalo"]["threads"]
+	wrapper:
+		"v1.31.1/bio/clustalo"
+
+################### Phylogenetic Tree Generation ###########################################
 
 rule fasttree:
     input:
-        alignment="results/msa/max_scaffolds.msa.fa" # Input alignment file
+        alignment="results/msa/MSA.msa.fa" # Input alignment file
     output:
-        tree="results/fasttree/max_scaffolds.nwk",  # Output tree file
+        tree="results/fasttree/MSA.nwk",  # Output tree file
     log:
         "logs/fasttree/fasttree.log",
     conda:
@@ -15,10 +30,11 @@ rule fasttree:
     wrapper:
         "v1.31.1/bio/fasttree"
 
+################### Phylogenetic Tree Visualisation ###########################################
 
 rule toytree:
     input:
-        "results/fasttree/max_scaffolds.nwk"
+        "results/fasttree/MSA.nwk"
     output:
         "results/toytree/tree_plot.pdf"
     log:
