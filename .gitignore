@@ -8,6 +8,7 @@ FinalProject/database/
 FinalProject/data/
 FinalProject/logs/
 FinalProject/reference/
+FinalProject/mb_downloads/
 
 # Don't check in individual config.yaml
 FinalProject/config/config.yaml
@@ -19,3 +20,6 @@ FinalProject/config/samples_test.tsv
 
 # ignore macOS files
 **/.DS_Store
+
+FinalProject/Snakefile
+FinalProject/.Rhistory

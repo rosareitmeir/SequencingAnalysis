@@ -59,17 +59,17 @@ include: "rules/assembly.smk" #de novo assembly with qc, preprocessing,...
 include: "rules/screen.smk"
 include: "rules/obtaining_geneseq.smk"
 #include: "rules/phylogenetic.smk" # + MSA + tree generation
-#include: "rules/DEG_analysis.smk"
+include: "rules/DEG_analysis.smk"
 
 
 rule all:
 	input:
-		expand("results/consensus/{sample}/{sample}_gene_seqs.fasta",sample=list(samples.index)),
-		"results/consensus/MSAinput.fasta",
-		"results/msa/MSA.msa.fa",
-		"results/fasttree/MSA.nwk",
-		"results/toytree/tree_plot.pdf"
-
+		#expand("results/consensus/{sample}/{sample}_gene_seqs.fasta",sample=list(samples.index)),
+		#"results/consensus/MSAinput.fasta",
+		#"results/msa/MSA.msa.fa",
+		#"results/fasttree/MSA.nwk",
+		#"results/toytree/tree_plot.pdf"
+		"results/DGEAnalysis/volcano_DESeq2.pdf"
 		#"results/qc/compleasm/txome_busco/prok"
 		#"results/qc/RNA_seq/multiqc_report.html" if os.path.exists(config["ref"]) else ["results/qc/wgs/multiqc_report.html", "results/qc/RNA_seq/multiqc_report.html" ],
 		#multiext("results/featurecounts/allsamples", ".featureCounts", ".featureCounts.summary", ".featureCounts.jcounts")
