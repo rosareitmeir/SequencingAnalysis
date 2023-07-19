@@ -311,25 +311,7 @@ rule quast_polishing:
 		"v1.31.1/bio/quast"
 
 
-## BUSCO to check assembly and annotation
-## miniBUSCO has been changed to Compleasm
-
-rule run_busco_prok:
-	input:
-		"results/assembly/pilon/" + wgs_name + ".fasta",
-	output:
-		out_dir=directory("results/qc/busco/txome_busco/prok"),
-		dataset_dir=directory("resources/busco_downloads"),
-	log:
-		"logs/proteins_busco_prok.log",
-	params:
-		mode="proteins",
-		extra="--auto-lineage-prok",
-
-	threads: config["software"]["busco"]["threads"]
-
-	wrapper:
-		"v2.2.0/bio/busco"
+## Compleasm to check assembly and annotation
 
 rule run_compleasm:
 	input:
