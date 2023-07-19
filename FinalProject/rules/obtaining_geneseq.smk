@@ -15,9 +15,9 @@ rule create_gene_bed:
 # sort each bam file according to the genomic position of the reads
 rule sort_bam:
     input:
-        "results/hisat2/mapped/{sample}.bam"
+        "results/hisat2/mapped/{sample}" + ".bam"
     output:
-        "results/hisat2/mapped/{sample}_sorted.bam"
+        "results/hisat2/mapped/{sample}"+ ".sort.bam"
     conda:
         "../envs/env.yaml"
     log:
@@ -28,9 +28,9 @@ rule sort_bam:
 ## adds index to the sorted bam files (positions of the reads in the Bam file)
 rule index_bam:
     input:
-         "results/hisat2/mapped/{sample}_sorted.bam"
+         "results/hisat2/mapped/{sample}.sort.bam"
     output:
-         "results/hisat2/mapped/{sample}_sorted.bam.bai"
+         "results/hisat2/mapped/{sample}.sorted.bam.bai"
     conda:
         "../envs/env.yaml"
     log:
@@ -57,8 +57,8 @@ rule samtools_faidx:
 
 rule samtools_whole_consensus:
     input:
-        bam="results/hisat2/mapped/{sample}_sorted.bam",
-        bam_idx="results/hisat2/mapped/{sample}_sorted.bam.bai",
+        bam="results/hisat2/mapped/{sample}.sort.bam",
+        bam_idx="results/hisat2/mapped/{sample}.sorted.bam.bai",
         #gene_list="results/gene_sequences/gene_list.tsv"
     output:
         "results/consensus/{sample}/{sample}_WholeConsensus.fasta",

@@ -50,10 +50,10 @@ rule wgs_fastqc_trimmed:
 #### Subsampling seqtk
 
 def get_files_for_norm(wildcards):
-	if not cont_table.empty:
+	if os.path.exists(config["contaminations"]):
 		return ["results/decontamination/" + wgs_name + "_1.fastq.gz",
 				"results/decontamination/" + wgs_name + "_2.fastq.gz"]
-	elif (config["use_trimmed"]):
+	elif (config["WGS_trimmed"]):
 		return ["results/trimmed/wgs/" + wgs_name + "_1.fastq", "results/trimmed/wgs/" + wgs_name + "_2.fastq"]
 	else:
 		return [wgs_path + "_1.fastq.gz", wgs_path + "_2.fastq.gz"]
@@ -314,22 +314,22 @@ rule quast_polishing:
 ## BUSCO to check assembly and annotation
 ## miniBUSCO has been changed to Compleasm
 
-#rule run_busco_prok:#
-#	input:
-#		"results/assembly/pilon/" + wgs_name + ".fasta",
-#	output:
-#		out_dir=directory("results/qc/busco/txome_busco/prok"),
-#		dataset_dir=directory("resources/busco_downloads"),
-#	log:
-#		"logs/proteins_busco_prok.log",
-#	params:
-#		mode="proteins",
-#		extra="--auto-lineage-prok",
-#
-#	threads: config["software"]["busco"]["threads"]
-#
-#	wrapper:
-#		"v2.2.0/bio/busco"
+rule run_busco_prok:
+	input:
+		"results/assembly/pilon/" + wgs_name + ".fasta",
+	output:
+		out_dir=directory("results/qc/busco/txome_busco/prok"),
+		dataset_dir=directory("resources/busco_downloads"),
+	log:
+		"logs/proteins_busco_prok.log",
+	params:
+		mode="proteins",
+		extra="--auto-lineage-prok",
+
+	threads: config["software"]["busco"]["threads"]
+
+	wrapper:
+		"v2.2.0/bio/busco"
 
 rule run_compleasm:
 	input:
@@ -353,7 +353,7 @@ rule wgs_run_multiqc:
 		expand("results/qc/wgs/trimmed/" + wgs_name + "{number}_fastqc.html",number= numbers),
 		"results/qc/wgs/polished/" + wgs_name + "_polished/report.html",
 		"results/qc/wgs/quast/" + wgs_name + "/report.html"
-		 ] if config["use_trimmed"] else
+		 ] if config["WGS_trimmed"] else
 		[expand("results/qc/wgs/raw/" + wgs_name + "_{number}_fastqc.html", number=numbers),
 		 "results/qc/wgs/polished/" + wgs_name + "_polished/report.html",
 		 "results/qc/wgs/quast/" + wgs_name + "/report.html"]

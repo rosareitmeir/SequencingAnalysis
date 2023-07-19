@@ -65,7 +65,7 @@ rule convert_to_gtf:
         anno=config["ref_anno"] if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gff"
     output:
         #"results/assembly/annotation/" + wgs_name + ".gtf"
-        "results/annotation/" + anno_basename + ".gtf" if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gff"
+        "results/annotation/" + anno_basename + ".gtf" if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
     log:
         "logs/gtf_convertion/" + anno_basename + ".log" if os.path.exists(config["ref_anno"]) else "logs/gtf_convertion/" + wgs_name + ".log"
     conda:
@@ -164,7 +164,7 @@ rule RNA_Seq_multiqc:
     input:
         [expand("results/qc/RNA_seq/raw/{sample}_{index}_fastqc.html", index=numbers, sample = list(samples.index)),
          expand("results/qc/RNA_seq/trimmed/{sample}_{index}_fastqc.html",sample=list(samples.index),index= numbers),
-         expand("results/qc/RNA_seq/mapping/{sample}", sample=list(samples.index))] if config["use_trimmed"] else
+         expand("results/qc/RNA_seq/mapping/{sample}", sample=list(samples.index))] if config["RNA_trimmed"] else
         [expand("results/qc/RNA_seq/raw/{sample}_{index}_fastqc.html", index=numbers, sample = list(samples.index)), expand("results/qc/RNA_seq/mapping/{sample}", sample=list(samples.index))]
     output:
         "results/qc/RNA_seq/multiqc_report.html"

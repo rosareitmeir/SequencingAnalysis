@@ -50,7 +50,7 @@ rule cont_bowtie_index:
 rule cont_mapping:
 	input:
 		["results/trimmed/wgs/"+ wgs_name + "_1.fastq", 
-		"results/trimmed/wgs/"+ wgs_name + "_2.fastq"] if config["use_trimmed"] else
+		"results/trimmed/wgs/"+ wgs_name + "_2.fastq"] if config["WGS_trimmed"] else
 		[wgs_path + "_1.fastq.gz",
 		wgs_path + "_2.fastq.gz"],
 		expand(cont_path + "/" + cont_name + ".{index}.bt2",  index=range(1,5)),
