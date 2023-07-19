@@ -52,8 +52,6 @@ software:
       min_depth: 5  # samtools paramter d : making a call when specfified depth d is presented
   prokka:
     cpus: 2 # normally 8 cpus
-  busco:
-    threads: 1
   quast:
     extra: ""
   consensus:
