@@ -1,7 +1,7 @@
 
 rule differential_gene_expression:
         input:
-            counts= "example/allsamples.featureCounts" ,# results/featurecounts/allsamples.featureCounts",
+            counts= "results/featurecounts/allsamples.featureCounts",
             group_assignment= config["group_assignment"]
         output:
             table= "results/DGEAnalysis/DEG_results.tsv",
