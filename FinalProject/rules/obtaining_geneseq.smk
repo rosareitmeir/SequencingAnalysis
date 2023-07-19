@@ -23,7 +23,7 @@ rule sort_bam:
     log:
         "logs/samtools/{sample}_sorting.log"
     shell:
-        "samtools sort {input} > {output}"
+        "samtools sort {input} > {output} 2> {log}"
 
 ## adds index to the sorted bam files (positions of the reads in the Bam file)
 rule index_bam:
