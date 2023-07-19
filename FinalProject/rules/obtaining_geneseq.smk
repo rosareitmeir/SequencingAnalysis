@@ -17,7 +17,7 @@ rule sort_bam:
     input:
         "results/hisat2/mapped/{sample}" + ".bam"
     output:
-        "results/hisat2/mapped/{sample}"+ ".sort.bam"
+        "results/hisat2/mapped/{sample}"+ ".sorted.bam"
     conda:
         "../envs/env.yaml"
     log:
@@ -28,7 +28,7 @@ rule sort_bam:
 ## adds index to the sorted bam files (positions of the reads in the Bam file)
 rule index_bam:
     input:
-         "results/hisat2/mapped/{sample}.sort.bam"
+         "results/hisat2/mapped/{sample}.sorted.bam"
     output:
          "results/hisat2/mapped/{sample}.sorted.bam.bai"
     conda:
@@ -57,7 +57,7 @@ rule samtools_faidx:
 
 rule samtools_whole_consensus:
     input:
-        bam="results/hisat2/mapped/{sample}.sort.bam",
+        bam="results/hisat2/mapped/{sample}.sorted.bam",
         bam_idx="results/hisat2/mapped/{sample}.sorted.bam.bai",
         #gene_list="results/gene_sequences/gene_list.tsv"
     output:
