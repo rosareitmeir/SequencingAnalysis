@@ -42,4 +42,4 @@ rule toytree:
     conda:
         "../envs/env.yaml"
     script:
-        "../scripts/tree_view.py"
+        "../scripts/TreeVisualization.py"
