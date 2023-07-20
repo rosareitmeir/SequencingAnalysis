@@ -17,7 +17,7 @@ ref_path = config["ref"] if os.path.exists(config["ref"]) else ""
 anno_file = os.path.basename(config["ref_anno"]) if os.path.exists(config["ref_anno"]) else "None" #TODO check it works in all cases 
 anno_basename = os.path.splitext(anno_file)[0] if os.path.exists(config["ref_anno"]) else "None" #get basename of annotation file, to convert to gff
 
-# Path and basefilename for contaminations.fa, place bowtie index in the same location with basename
+# Path and basefilename for contaminations.fasta, place bowtie index in the same location with basename
 cont_path = os.path.dirname(config["contaminations"])
 cont_base = os.path.basename(config["contaminations"])
 cont_name = os.path.splitext(cont_base)[0]
