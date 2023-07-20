@@ -119,13 +119,13 @@ rule decon_bam_to_fastq:
 		"results/decontamination/" + wgs_name + "_1.fastq.gz",
 		"results/decontamination/" + wgs_name + "_2.fastq.gz"
 	log:
-		"logs/samtools/sam_to_fastq/" + wgs_name + "_samtofq.log"
+		"logs/samtools/sam_to_fastq/" + wgs_name + "_bamtofq.log"
 	conda:
 		"../envs/env.yaml"
 	threads:
 		config["software"]["samtools"]["threads"]
 	shell:
-		"samtools fastq -@ {threads} {input} -1 {output[0]} -2 {output[1]} -0 /dev/null -s /dev/null -n"
+		"samtools fastq -@ {threads} {input} -1 {output[0]} -2 {output[1]} -0 /dev/null -s /dev/null -n &> {log}"
 
 # Quality control after decontamination
 
