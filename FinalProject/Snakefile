@@ -19,7 +19,8 @@ anno_basename = os.path.splitext(anno_file)[0] if os.path.exists(config["ref_ann
 
 # Path and basefilename for contaminations.fa, place bowtie index in the same location with basename
 cont_path = os.path.dirname(config["contaminations"])
-cont_name = os.path.basename(cont_path)
+cont_base = os.path.basename(config["contaminations"])
+cont_name = os.path.splitext(cont_base)[0]
 
 def get_fastq_pair1(wildcards):
 	sample = wildcards.sample
