@@ -239,7 +239,7 @@ rule genome_annotation:
 
 
 
-### Quality Control : BUSCO & Quast
+### Quality Control : Compleasm & Quast
 
 rule quast_assembly:
 	input:
@@ -311,7 +311,7 @@ rule quast_polishing:
 		"v1.31.1/bio/quast"
 
 
-## Compleasm to check assembly and annotation
+## Compleasm to check assembled genome completeness and annotation
 
 rule run_compleasm:
 	input:
@@ -326,7 +326,7 @@ rule run_compleasm:
 	threads:
 		config["software"]["compleasm"]["threads"]
 	shell:
-		"compleasm run -m {params.mode} {params.extra} -a {input} -o {output.out_dir} 2>> {log}"
+		"compleasm run -m {params.mode} {params.extra} -a {input} -o {output.out_dir} -t {threads} 2>> {log}"
 
 
 rule wgs_run_multiqc:
