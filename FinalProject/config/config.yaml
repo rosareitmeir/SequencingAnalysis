@@ -14,7 +14,7 @@ ref_anno: "" #"/home/rosa/SequencingAnalysis_Proj/Project2/data/chr22_with_ERCC9
 wgs_data: "assembly/SRR13282500_Other_Sequencing_of_Shigella_flexneri_2a"
 
 # optional contaminations to be removed
-contaminations: "" #"config/contaminations.tsv"
+contaminations: "" #"config/contaminations.fasta"
 
 ## path to group assignment tsv for DEG
 group_assignment: "example/samples_sheet_2M.tsv"
