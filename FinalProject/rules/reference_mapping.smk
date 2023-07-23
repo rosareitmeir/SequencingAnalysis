@@ -151,6 +151,8 @@ rule qualimap:
         directory("results/qc/RNA_seq/mapping/{sample}")
     log:
         "logs/qualimap/{sample}.log"
+    params:
+        extra=""  # optional params string
     # optional specification of memory usage of the JVM that snakemake will respect with global
     # resource restrictions (https://snakemake.readthedocs.io/en/latest/snakefiles/rules.html#resources)
     # and which can be used to request RAM during cluster job submission as `{resources.mem_mb}`:
