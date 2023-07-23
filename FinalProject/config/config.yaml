@@ -54,8 +54,7 @@ software:
     cpus: 2 # normally 8 cpus
   quast:
     extra: ""
-  consensus:
-    min_depth: 5  # samtools paramter d : making a call when specfified depth d is presented
+  FilterGenes:
     min_coverage: 0.9
   compleasm:
     threads: 1
