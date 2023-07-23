@@ -146,7 +146,6 @@ rule qualimap:
     input:
         bam="results/hisat2/mapped/{sample}.bam",
         # GTF containing transcript, gene, and exon data
-        #gtf= config["ref_anno"] if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
         gtf="results/annotation/" + anno_basename + ".gtf" if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
     output:
         directory("results/qc/RNA_seq/mapping/{sample}")
