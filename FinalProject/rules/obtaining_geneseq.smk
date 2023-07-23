@@ -98,7 +98,7 @@ rule filter_out_genes:
         "logs/obtain_gene_seqs/filter_genes/{sample}.log"
 
     params:
-        min_coverage = config["software"]["consensus"]["min_coverage"]
+        min_coverage = config["software"]["FilterGenes"]["min_coverage"]
     script:
         "../scripts/FilterGenes.py"
 
