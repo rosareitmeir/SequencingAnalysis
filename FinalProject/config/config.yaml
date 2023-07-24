@@ -2,7 +2,7 @@
 
 
 #samples
-samples: "config/samples_test_copy.tsv"
+samples: "config/samples.tsv"
 
 #fastq: "../data"
 
@@ -35,7 +35,7 @@ software:
     extra: "--minimum-length 1 -q 20"
     threads: 4
   kraken2:
-    database: "/home/rosa/SequencingAnalysis/FinalProject/database/k2_viral_20230314"
+    database: "/code/AppliedSequenceAnalysis/SequencingAnalysis/FinalProject/database/k2_viral_20230605"
     threads: 4
   seqtk:
     threads: 4
