@@ -1,4 +1,4 @@
- Configuration Parameters: 
+Configuration Parameters: 
  
 Samples File: 
 Specify the path to the TSV (tab-separated values) file containing information about the samples to be analyzed. The file should include  a column called sample containing the sample names and two corresponding file paths for fq1 and fq2.
@@ -31,7 +31,7 @@ differential gene expression: setting significance level alpha
 
 
 
-Other attention: 
-- make sure that the folder results/qc/.. does not already contain any MultiQC Report before running the workflow, otherwise the workflow breaks. 
+NOTE: 
+- make sure that the folder results/qc/.. does not already contain any previous MultiQC Report before running the workflow, otherwise the workflow breaks. 
 
 
