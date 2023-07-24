@@ -14,8 +14,9 @@ numbers=[1,2] # to index through the two fastq files
 
 ref_path = config["ref"] if os.path.exists(config["ref"]) else "" 
 
-anno_file = os.path.basename(config["ref_anno"]) if os.path.exists(config["ref_anno"]) else "None" #TODO check it works in all cases 
-anno_basename = os.path.splitext(anno_file)[0] if os.path.exists(config["ref_anno"]) else "None" #get basename of annotation file, to convert to gff
+anno_file = os.path.basename(config["ref_anno"]) if os.path.exists(config["ref_anno"]) else ""
+#get basename of annotation file, to convert to gff
+anno_basename = os.path.splitext(anno_file)[0] if os.path.exists(config["ref_anno"]) else "" 
 
 # Path and basefilename for contaminations.fasta, place bowtie index in the same location with basename
 cont_path = os.path.dirname(config["contaminations"])
@@ -67,11 +68,11 @@ wildcard_constraints:
 
 rule all:
 	input:
-		# results od downstream analysis:
+		# Results of downstream analysis:
 		"results/toytree/tree_plot.pdf",
 		"results/DGEAnalysis/volcano.pdf",
-		# multi qc reports
-		"results/qc/RNA_seq/multiqc_report.html" if os.path.exists(config["ref"]) else ["results/qc/wgs/multiqc_report.html", "results/qc/RNA_seq/multiqc_report.html" ,"results/qc/compleasm/txome_busco/prok"]
+		# MultiQC Reports
+		"results/qc/RNA_seq/multiqc_report.html" if os.path.exists(config["ref"]) else ["results/qc/wgs/multiqc_report.html", "results/qc/RNA_seq/multiqc_report.html", "results/qc/compleasm/txome_busco/prok"],
 
 
 
