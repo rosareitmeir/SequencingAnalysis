@@ -1,7 +1,6 @@
 FinalProject/.idea/
 FinalProject/.snakemake/
 FinalProject/gurobi.log
-FinalProject/results/
 FinalProject/assembly/
 FinalProject/database/
 FinalProject/data/
