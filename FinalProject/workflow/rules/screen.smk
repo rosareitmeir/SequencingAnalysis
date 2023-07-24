@@ -17,6 +17,7 @@ rule kraken_classification:
 	shell:
 		"kraken2 --use-names  --db {params.db}  --report {output[1]} --output {output[0]} --threads {params.threads}   --paired {input.fq1} {input.fq2}  &> {log}"
 
+
 rule screen:
 	input:
 		"results/kraken2/"+ wgs_name + "_output.txt"
@@ -28,6 +29,7 @@ rule screen:
 		"../envs/env.yaml"
 	shell:
 		"multiqc results/kraken2  -o results/qc/kraken2 &> {log}"
+
 
 # Decontamination with bowtie2 + samtools
 # Using flag -f 12 on samtools to ensure all target reads, in this case read unmapped mate unmapped, with respect to the contamination reference, are kept.
@@ -46,6 +48,7 @@ rule cont_bowtie_index:
 		out_dir=cont_path + "/" + cont_name
 	shell:
 		"bowtie2-build -f {input.reference} {params.out_dir} &> {log}"
+
 
 rule cont_mapping:
 	input:
@@ -68,6 +71,7 @@ rule cont_mapping:
 	shell:
 		"bowtie2 -p {threads} -x {params.ref_idx} -1 {input[0]} -2 {input[1]} -S {output} &> {log}"
 
+
 # Extract target reads -> unmapped to contaminations, keep reads where none of the two reads in a pair map
 
 rule cont_read_filter:
@@ -84,6 +88,7 @@ rule cont_read_filter:
 	shell:
 		"samtools view -f 12 {input} > {output} 2> {log}"
 
+
 rule decon_sam_to_bam:
 	input:
 		"results/decontamination/mapping/sam/" + wgs_name + "_decon.sam"
@@ -97,6 +102,7 @@ rule decon_sam_to_bam:
 		config["software"]["samtools"]["threads"]
 	shell:
 		"samtools view -@ {threads} -Sb {input} > {output} 2> {log}"
+
 
 rule decon_sort_bam:
 	input:
@@ -112,6 +118,7 @@ rule decon_sort_bam:
 	shell:
 		"samtools sort -@ {threads} {input} -o {output} &> {log}"
 
+
 rule decon_bam_to_fastq:
 	input:
 		"results/decontamination/mapping/bam/" + wgs_name + "_decon_sorted.bam"
@@ -126,6 +133,7 @@ rule decon_bam_to_fastq:
 		config["software"]["samtools"]["threads"]
 	shell:
 		"samtools fastq -@ {threads} {input} -1 {output[0]} -2 {output[1]} -0 /dev/null -s /dev/null -n &> {log}"
+
 
 # Quality control after decontamination
 
