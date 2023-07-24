@@ -14,8 +14,7 @@ FinalProject/mb_downloads/
 
 # data
 DATA/
-config/
-FinalProject/config/samples_test.tsv
+FinalProject/config/samples_test_copy.tsv
 
 # ignore macOS files
 **/.DS_Store
