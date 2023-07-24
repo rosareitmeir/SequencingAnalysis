@@ -23,8 +23,6 @@ rule fasttree:
         tree="results/fasttree/MSA.nwk",  # Output tree file
     log:
         "logs/fasttree/fasttree.log",
-    conda:
-        "../envs/env.yaml"
     params:
         extra="",
     wrapper:
