@@ -13,12 +13,13 @@ rule fastqc_raw:
 	output:
 		html="results/qc/RNA_seq/raw/{sample}_{index}_fastqc.html",
 		zip="results/qc/RNA_seq/raw/{sample}_{index}_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
-
 	log:
 		"logs/fastqc/{sample}_{index}.log"
-
+	threads:
+		config["software"]["fastqc"]["threads"]
 	wrapper:
 		"v1.31.1/bio/fastqc"
+
 
 rule cutadapt:
 	input:
@@ -27,18 +28,16 @@ rule cutadapt:
 		fastq1="results/trimmed/RNA_seq/{sample}_1.fastq",
 		fastq2="results/trimmed/RNA_seq/{sample}_2.fastq",
 		qc="results/qc/RNA_seq/trimmed/{sample}.qc.txt"
-
 	params:
 		adapters= config["software"]["cutadapt"]["adapters"],
 		extra= config["software"]["cutadapt"]["extra"]
 	log:
 		"logs/cutadapt/{sample}.log"
-	conda:
-		"../envs/env.yaml"
 	threads:
 		config["software"]["cutadapt"]["threads"]
 	wrapper:
 		"v1.31.1/bio/cutadapt/pe"
+
 
 rule fastqc_trimmed:
 	input:
@@ -46,13 +45,13 @@ rule fastqc_trimmed:
 	output:
 		html="results/qc/RNA_seq/trimmed/{sample}_{index}_fastqc.html",
 		zip="results/qc/RNA_seq/trimmed/{sample}_{index}.fastqc.zip"  # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
-
 	log:
 		"logs/fastqc_trimmed/{sample}_{index}.log"
-	conda:
-		"../envs/env.yaml"
+	threads:
+		config["software"]["fastqc"]["threads"]
 	wrapper:
 		"v1.31.1/bio/fastqc"
+
 
 ################################################### Reference Mapping & Gene Counting ###################################################################
 
@@ -61,10 +60,8 @@ rule fastqc_trimmed:
 
 rule convert_to_gtf:
     input:
-        #"results/assembly/annotation/" + wgs_name + ".gff"
         anno=config["ref_anno"] if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gff"
     output:
-        #"results/assembly/annotation/" + wgs_name + ".gtf"
         "results/annotation/" + anno_basename + ".gtf" if os.path.exists(config["ref_anno"]) else "results/assembly/annotation/" + wgs_name + ".gtf"
     log:
         "logs/gtf_convertion/" + anno_basename + ".log" if os.path.exists(config["ref_anno"]) else "logs/gtf_convertion/" + wgs_name + ".log"
@@ -73,6 +70,7 @@ rule convert_to_gtf:
     shell:
         "gffread {input} -T -o {output} &>{log}"
 
+
 rule hisat_build_index:
     input:
         genome=config["ref"] if os.path.exists(config["ref"]) else "results/assembly/pilon/"+ wgs_name + ".fasta"
@@ -80,26 +78,29 @@ rule hisat_build_index:
         directory("results/hisat2/genome_idx/"),
         expand("results/hisat2/genome_idx/genome_idx.{number}.ht2", number=[1,8])
     params:
-        threads= config["software"]["hisat2"]["threads"]
+        threads=config["software"]["hisat2"]["threads"]
     log:
         "logs/hisat/build_genome_idx.log"
+    conda:
+        "../envs/env.yaml"
     shell:
-        "hisat2-build -p  {params.threads} {input} results/hisat2/genome_idx/genome_idx &>{log}"
+        "hisat2-build -p {params.threads} {input} results/hisat2/genome_idx/genome_idx &>{log}"
 
 
 rule hisat2_align:
-    input:
-        reads= get_fqs_for_downstream,
-        idx="results/hisat2/genome_idx/",
-    output:
-        "results/hisat2/mapped/{sample}.bam",
-    log:
-        "logs/hisat2/{sample}_align.log",
-    params:
-        extra="",
-    threads: 1
-    wrapper:
-        "v2.2.0/bio/hisat2/align"
+	input:
+		reads= get_fqs_for_downstream,
+		idx="results/hisat2/genome_idx/",
+	output:
+		"results/hisat2/mapped/{sample}.bam",
+	log:
+		"logs/hisat2/{sample}_align.log",
+	params:
+		extra="",
+	threads:
+		config["software"]["hisat2"]["threads"]
+	wrapper:
+		"v2.2.0/bio/hisat2/align"
 
 
 rule feature_counts:
@@ -127,20 +128,6 @@ rule feature_counts:
 
 
 ################### Mapping QC & MultiQC ###########################################
-
-rule RNAseq_bamtosam:
-	input:
-		"results/hisat2/mapped/{sample}.bam"
-	output:
-		"results/hisat2/mapped/{sample}.sam"
-	log:
-		"logs/samtools/bamtosam/{sample}.log"
-	conda:
-		"../envs/env.yaml"
-	threads:
-		config["software"]["samtools"]["threads"]
-	shell:
-		"samtools view -@ {threads} -h -o  {output}  {input} 2> {log}"
 
 rule qualimap:
     input:
