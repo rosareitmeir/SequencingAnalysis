@@ -8,9 +8,9 @@ rule wgs_fastqc:
 		zip="results/qc/wgs/raw/" + wgs_name + "_{number}_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file.
 	log:
 		"logs/fastqc/raw/"+ wgs_name + "_{number}.log"
-
 	wrapper:
 		"v1.31.1/bio/fastqc"
+
 
 rule wgs_cutadapt:
 	input:
@@ -19,17 +19,16 @@ rule wgs_cutadapt:
 		fastq1="results/trimmed/wgs/"+ wgs_name + "_1.fastq",
 		fastq2="results/trimmed/wgs/"+ wgs_name + "_2.fastq",
 		qc="results/qc/wgs/trimmed/" + wgs_name + ".qc.txt"
-
 	params:
 		adapters= config["software"]["cutadapt"]["adapters"],
 		extra= config["software"]["cutadapt"]["extra"]
 	log:
 		"logs/cutadapt/"+ wgs_name + ".log"
-
 	threads:
 		config["software"]["cutadapt"]["threads"]
 	wrapper:
 		"v1.31.1/bio/cutadapt/pe"
+
 
 rule wgs_fastqc_trimmed:
 	input:
@@ -37,12 +36,10 @@ rule wgs_fastqc_trimmed:
 	output:
 		html="results/qc/wgs/trimmed/" + wgs_name + "{number}_fastqc.html",
 		zip="results/qc/wgs/trimmed/" + wgs_name + "{number}_fastqc.zip"  # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
-
 	log:
 		"logs/fastqc_trimmed/" + wgs_name + "_{number}.log"
 	wrapper:
 		"v1.31.1/bio/fastqc"
-
 
 
 #### Screening see screen.smk
@@ -89,7 +86,6 @@ rule assembly:
 	#normalized samples from seqtk
 		"results/seqtk/" + wgs_name + ".1.subsampled.fastq.gz",
 		"results/seqtk/" + wgs_name + ".2.subsampled.fastq.gz"
-
 	params:
 		output_dir="results/assembly/megahit/" + wgs_name,
 		out_prefix= wgs_name
@@ -130,7 +126,7 @@ rule bowtie_assembly_index:
 		"bowtie2-build -f {input.reference} {params} &> {log}"
 
 
-# map wgs reads back to assembly
+# Map wgs reads back to assembly
 rule bowtie_assembly_map:
 	input:
 		"results/seqtk/" + wgs_name + ".1.subsampled.fastq.gz",
@@ -165,6 +161,7 @@ rule samtobam:
 	shell:
 		"samtools view -@ {threads} -Sb {input} > {output} 2> {log}"
 
+
 rule bam_sort:
 	input:
 		"results/assembly/mapping/bam/" + wgs_name + ".bam"
@@ -178,6 +175,7 @@ rule bam_sort:
 		config["software"]["samtools"]["threads"]
 	shell:
 		"samtools sort -@ {threads} {input} -o {output} &> {log}"
+
 
 rule bam_index:
 	input:
@@ -210,33 +208,27 @@ rule polishing:
 		"pilon --genome {input.genome} --bam {input.bam} --outdir {params.output_dir} --output {params.out_prefix} &> {log}"
 
 
-
 ####################################### Genome Annotation ###########################################
 
 rule genome_annotation:
 	input:
 		"results/assembly/pilon/" + wgs_name + ".fasta"
-
 	output:
 		multiext("results/assembly/annotation/" + wgs_name ,
 		".err", ".faa",".ffn",".fna",".fsa", ".gbk", ".gff", ".log", ".sqn", ".tbl", ".tsv", ".txt")
-
 	params:
 		prefix= wgs_name,
 		out_dir = "results/assembly/annotation/",
 		cpus= config["software"]["prokka"]["cpus"]
-
 	log:
 		"logs/prokka/" + wgs_name + ".log"
 	conda:
 		"../envs/env.yaml"
-
 	shell:
 		"""
 		rm -rf {params.out_dir}
 		prokka --cpus {params.cpus} --outdir {params.out_dir} --prefix {params.prefix} {input} &> {log}
 		"""
-
 
 
 ### Quality Control : Compleasm & Quast
@@ -275,10 +267,10 @@ rule quast_assembly:
 	wrapper:
 		"v1.31.1/bio/quast"
 
+
 rule quast_polishing:
 	input:
 		fasta="results/assembly/pilon/" + wgs_name + ".fasta"  #fasta with each contig polished
-	#		ref= config["ref"]
 	output:
 		multiext("results/qc/wgs/polished/" + wgs_name + "_polished/report.","html","tex","txt","pdf","tsv"),
 		multiext("results/qc/wgs/polished/" + wgs_name + "_polished/transposed_report.","tex","txt","tsv"),
@@ -320,6 +312,8 @@ rule run_compleasm:
 		out_dir=directory("results/qc/compleasm/txome_busco/prok")
 	log:
 		"logs/compleasm/proteins_compleasm_prok.log"
+	conda:
+		"../envs/env.yaml"
 	params:
 		mode="busco", #modes are busco or lite, lite: Without using hmmsearch to filtering protein alignment. busco: Using hmmsearch on all candidate predicted proteins to purify the miniprot alignment to improve accuracy.
 		extra="--autolineage" #uses sepp to auto determine lineage needed
@@ -343,7 +337,8 @@ rule wgs_run_multiqc:
 		"results/qc/wgs/multiqc_report.html"
 	log:
 		"logs/multiqc/wgs_fasta_multiqc.log"
-
+	conda:
+		"../envs/env.yaml"
 	shell:
 		"multiqc results/qc/wgs  -o results/qc/wgs &> {log}"
 
