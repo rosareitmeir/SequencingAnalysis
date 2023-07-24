@@ -10,12 +10,14 @@ FinalProject/reference/
 FinalProject/mb_downloads/
 FinalProject/Team5_FinalProject
 
+
 # Don't check in individual config.yaml
 #FinalProject/config/config.yaml
 
 # data
 DATA/
 FinalProject/config/samples_test_copy.tsv
+FinalProject/config/samples_local.tsv
 
 # ignore macOS files
 **/.DS_Store
