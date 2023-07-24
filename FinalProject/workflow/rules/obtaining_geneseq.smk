@@ -1,4 +1,4 @@
-## extracting gene list
+# Extracting gene list
 rule create_gene_bed:
     input:
         "results/featurecounts/allsamples.featureCounts"
@@ -12,7 +12,8 @@ rule create_gene_bed:
     shell:
         "tail -n +3 {input} | awk  '{params.expression}'  > {output}"
 
-# sort each bam file according to the genomic position of the reads
+
+# Sort each bam file according to the genomic position of the reads
 rule sort_bam:
     input:
         "results/hisat2/mapped/{sample}" + ".bam"
@@ -22,10 +23,13 @@ rule sort_bam:
         "../envs/env.yaml"
     log:
         "logs/samtools/{sample}_sorting.log"
+    threads:
+        config["software"]["samtools"]["threads"]
     shell:
-        "samtools sort {input} > {output} 2> {log}"
+        "samtools sort -@ {threads} {input} > {output} 2> {log}"
 
-## adds index to the sorted bam files (positions of the reads in the Bam file)
+
+# Adds index to the sorted bam files (positions of the reads in the Bam file)
 rule index_bam:
     input:
          "results/hisat2/mapped/{sample}.sorted.bam"
@@ -38,28 +42,13 @@ rule index_bam:
     shell:
         "samtools index {input} 2>> {log}"
 
+
 # Obtaining gene sequences 
-
-rule samtools_faidx:
-    input:
-        #"{sample}.fa",
-        genome=config["ref"] if os.path.exists(config["ref"]) else "results/assembly/pilon/"+ wgs_name + ".fasta"
-    output:
-        #"{sample}.fa.fai",
-        ref_path + ".fai" if os.path.exists(config["ref"]) else "results/assembly/pilon/"+ wgs_name + ".fasta.fai" 
-    log:
-        "logs/samtools/reference_faidx.log",
-    params:
-        extra="",  # optional params string
-    wrapper:
-        "v2.2.0/bio/samtools/faidx"
-
 
 rule samtools_whole_consensus:
     input:
         bam="results/hisat2/mapped/{sample}.sorted.bam",
         bam_idx="results/hisat2/mapped/{sample}.sorted.bam.bai",
-        #gene_list="results/gene_sequences/gene_list.tsv"
     output:
         "results/consensus/{sample}/{sample}_WholeConsensus.fasta",
     conda:
@@ -67,7 +56,6 @@ rule samtools_whole_consensus:
     log:
         "logs/obtain_gene_seqs/samtools_consensus/{sample}.log",
     params:
-        #d=config["software"]["consensus"]["call_d"],
         d=config["software"]["samtools"]["consensus"]["min_depth"]
     shell:
         "samtools consensus  -f fasta {input.bam} -d {params.d} -o {output} --show-del yes -a --show-ins yes 2>> {log}"
@@ -87,7 +75,7 @@ rule extract_gene_sequences:
         "bedtools getfasta -name -fi {input.consensus} -bed {input.gene_bed} -fo {output} 2> {log}"
 
 
-## filter out genes that do not have sufficient coverage for each sample
+## Filter out genes that do not have sufficient coverage for each sample
 rule filter_out_genes:
     input:
         "results/consensus/{sample}/{sample}_gene_seqs.fasta"
@@ -96,13 +84,15 @@ rule filter_out_genes:
         "results/consensus/{sample}/{sample}_minCov_ConsensusSeqs.fasta"
     log:
         "logs/obtain_gene_seqs/filter_genes/{sample}.log"
-
+    conda:
+        "../envs/env.yaml"
     params:
         min_coverage = config["software"]["FilterGenes"]["min_coverage"]
     script:
         "../scripts/FilterGenes.py"
 
-## get gene intersection of all samples with sufficient coverage
+
+## Get gene intersection of all samples with sufficient coverage
 rule create_subset:
     input:
         expand("results/consensus/{sample}/{sample}_minCov_genes.txt", sample=list(samples.index))
@@ -117,12 +107,17 @@ rule create_subset:
         echo "$common_lines" > {output}
         """
 
-## preparation for MSA -> merge the sequences from the genes in intersection
+
+## Preparation for MSA -> merge the sequences from the genes in intersection
 rule create_merged_sequences:
     input:
         fastas=expand("results/consensus/{sample}/{sample}_minCov_ConsensusSeqs.fasta", sample=list(samples.index)),
         genes="results/consensus/Subset_Genes.txt"
     output:
         "results/consensus/MSAinput.fasta"
+    conda:
+        "../envs/env.yaml"
+    log:
+        "logs/merge_sequences/merge_sequences.log"
     script:
         "../scripts/MergeSequences.py"
